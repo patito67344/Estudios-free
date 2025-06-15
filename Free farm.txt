@@ -1,25 +1,49 @@
---[[
-██╗  ██╗███████╗██╗     ██╗ ██████╗ ███████╗ ██████╗ 
-██║  ██║██╔════╝██║     ██║██╔═══██╗██╔════╝██╔═══██╗
-███████║█████╗  ██║     ██║██║   ██║███████╗██║   ██║
-██╔══██║██╔══╝  ██║     ██║██║   ██║╚════██║██║   ██║
-██║  ██║███████╗███████╗██║╚██████╔╝███████║╚██████╔╝
-╚═╝  ╚═╝╚══════╝╚══════╝╚═╝ ╚═════╝ ╚══════╝ ╚═════╝ 
-                                                     
-Made By Sage#8437                                                  
-Open Source 😘😘😘😘😘😘      
+-- Cargar Kavo UI Library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-ToDo List {
-better esp with health bar or something
-add pcalls and shit
-disable everyones colision for antifling :shrug:
-perhaps a teleport player to fuck the bring mode 
-make farms actually afkable
-}                                                   
-]]--
+-- Crear panel de verificación
+local KeyWindow = Library.CreateLib("🔐 Patito - Key System", "Ocean")
+local KeyTab = KeyWindow:NewTab("🔑 Verificación")
+local KeySection = KeyTab:NewSection("Ingresa la clave para continuar")
 
+-- Variable para la clave del usuario
+local userKey = ""
+local correctKey = "free"
+
+-- Campo de texto para ingresar la clave
+KeySection:NewTextBox("Contraseña", "La clave es requerida", function(txt)
+    userKey = txt
+end)
+
+-- Botón para verificar la clave
+KeySection:NewButton("Verificar Clave", "Haz clic para verificar", function()
+    if userKey == correctKey then
+        Library:Notify("✅ Acceso Permitido", "¡Bienvenido a Patito Panel!")
+
+        -- Cerrar ventana de verificación
+        for _, v in pairs(game.CoreGui:GetChildren()) do
+            if v.Name == "ScreenGui" or v.Name:find("Kavo") then
+                v:Destroy()
+            end
+        end
+
+        -- Cargar panel principal solo si la clave fue correcta
+        local MainLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+        local MainWindow = MainLibrary.CreateLib("🦆 Patito Panel", "Ocean")
+
+        local MainTab = MainWindow:NewTab("📋 Funciones")
+        local MainSection = MainTab:NewSection("Bienvenido al Panel")
+
+        MainSection:NewLabel("🎉 Clave verificada con éxito")
+        MainSection:NewButton("Función de ejemplo", "Este botón realiza una acción", function()
+            print("✅ Función activada desde Patito Panel")
+        end)
+    else
+        Library:Notify("❌ Clave Incorrecta", "La contraseña es inválida.")
+    end
+end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))();
-local Window = Library.CreateLib("Helioso - Age Of Heros", "Serpent");
+local Window = Library.CreateLib("patito - Age Of Heros", "Sentinel");
 local Tab = Window:NewTab("AutoFarm Menu");
 local MainSection = Tab:NewSection("AutoFarm Menu");
 local TargetTab = Window:NewTab("Player Menu");
