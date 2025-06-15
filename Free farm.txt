@@ -1,49 +1,82 @@
 -- Cargar Kavo UI Library
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local KavoUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
--- Crear panel de verificación
-local KeyWindow = Library.CreateLib("🔐 Patito - Key System", "Ocean")
-local KeyTab = KeyWindow:NewTab("🔑 Verificación")
-local KeySection = KeyTab:NewSection("Ingresa la clave para continuar")
-
--- Variable para la clave del usuario
+-- Clave correcta
+local CorrectKey = "free"
 local userKey = ""
-local correctKey = "free"
 
--- Campo de texto para ingresar la clave
-KeySection:NewTextBox("Contraseña", "La clave es requerida", function(txt)
-    userKey = txt
+-- Crear ventana de sistema de clave
+local KeyWindow = KavoUI.CreateLib("🔐 Patito - Key System", "Sentinel")
+local KeyTab = KeyWindow:NewTab("🔑 Verificación")
+local KeySection = KeyTab:NewSection("Ingresa la clave")
+
+-- TextBox para ingresar clave
+KeySection:NewTextBox("Contraseña", "Escribe la clave aquí", function(text)
+    userKey = text
 end)
 
--- Botón para verificar la clave
-KeySection:NewButton("Verificar Clave", "Haz clic para verificar", function()
-    if userKey == correctKey then
-        Library:Notify("✅ Acceso Permitido", "¡Bienvenido a Patito Panel!")
+-- Botón para verificar clave
+KeySection:NewButton("Verificar", "Verifica si la clave es correcta", function()
+    if userKey == CorrectKey then
+        KavoUI:Notify("✔️ Acceso Permitido", "Bienvenido al Panel Patito")
 
-        -- Cerrar ventana de verificación
-        for _, v in pairs(game.CoreGui:GetChildren()) do
-            if v.Name == "ScreenGui" or v.Name:find("Kavo") then
-                v:Destroy()
+        -- Destruir panel anterior
+        for _, gui in pairs(game.CoreGui:GetChildren()) do
+            if gui.Name:find("Kavo") then
+                gui:Destroy()
             end
         end
 
-        -- Cargar panel principal solo si la clave fue correcta
-        local MainLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-        local MainWindow = MainLibrary.CreateLib("🦆 Patito Panel", "Ocean")
+        -- Cargar el panel real
+        local MainUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+        local MainWindow = MainUI.CreateLib("🦆 Patito Panel", "Sentinel")
 
         local MainTab = MainWindow:NewTab("📋 Funciones")
-        local MainSection = MainTab:NewSection("Bienvenido al Panel")
+        local MainSection = MainTab:NewSection("Bienvenido a Patito")
 
-        MainSection:NewLabel("🎉 Clave verificada con éxito")
-        MainSection:NewButton("Función de ejemplo", "Este botón realiza una acción", function()
-            print("✅ Función activada desde Patito Panel")
+        MainSection:NewLabel("🎉 Clave correcta, acceso concedido")
+        MainSection:NewButton("Función de ejemplo", "Haz clic y mira la consola", function()
+            print("✅ Función ejecutada correctamente.")
         end)
     else
-        Library:Notify("❌ Clave Incorrecta", "La contraseña es inválida.")
+        KavoUI:Notify("❌ Acceso Denegado", "Clave incorrecta")
     end
 end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))();
-local Window = Library.CreateLib("patito - Age Of Heros", "Sentinel");
+local Window = Library.CreateLib("patito - Age Of Heros", "Sentinel");function MakeDraggable(frame)
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+                                       startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+end
 local Tab = Window:NewTab("AutoFarm Menu");
 local MainSection = Tab:NewSection("AutoFarm Menu");
 local TargetTab = Window:NewTab("Player Menu");
