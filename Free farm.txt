@@ -1,49 +1,66 @@
--- Cargar Kavo UI Library
-local KavoUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+-- CONFIGURA TU CLAVE
+local KeyRequired = "free"
 
--- Clave correcta
-local CorrectKey = "free"
-local userKey = ""
+-- Crear interfaz para ingresar clave
+local CoreGui = game:GetService("CoreGui")
+local UserInputService = game:GetService("UserInputService")
 
--- Crear ventana de sistema de clave
-local KeyWindow = KavoUI.CreateLib("🔐 Patito - Key System", "Sentinel")
-local KeyTab = KeyWindow:NewTab("🔑 Verificación")
-local KeySection = KeyTab:NewSection("Ingresa la clave")
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "KeyUI"
 
--- TextBox para ingresar clave
-KeySection:NewTextBox("Contraseña", "Escribe la clave aquí", function(text)
-    userKey = text
-end)
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 300, 0, 150)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true
 
--- Botón para verificar clave
-KeySection:NewButton("Verificar", "Verifica si la clave es correcta", function()
-    if userKey == CorrectKey then
-        KavoUI:Notify("✔️ Acceso Permitido", "Bienvenido al Panel Patito")
+local Title = Instance.new("TextLabel", Frame)
+Title.Text = "Panel Patito - Ingresa la clave"
+Title.Size = UDim2.new(1, 0, 0.3, 0)
+Title.BackgroundTransparency = 1
+Title.TextColor3 = Color3.fromRGB(0, 0, 0)
+Title.Font = Enum.Font.GothamBold
+Title.TextScaled = true
 
-        -- Destruir panel anterior
-        for _, gui in pairs(game.CoreGui:GetChildren()) do
-            if gui.Name:find("Kavo") then
-                gui:Destroy()
-            end
-        end
+local TextBox = Instance.new("TextBox", Frame)
+TextBox.PlaceholderText = "Escribe aquí..."
+TextBox.Size = UDim2.new(0.8, 0, 0.25, 0)
+TextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.Font = Enum.Font.Gotham
+TextBox.TextScaled = true
 
-        -- Cargar el panel real
-        local MainUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-        local MainWindow = MainUI.CreateLib("🦆 Patito Panel", "Sentinel")
+local Button = Instance.new("TextButton", Frame)
+Button.Text = "Verificar"
+Button.Size = UDim2.new(0.6, 0, 0.2, 0)
+Button.Position = UDim2.new(0.2, 0, 0.7, 0)
+Button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+Button.Font = Enum.Font.GothamBold
+Button.TextScaled = true
 
-        local MainTab = MainWindow:NewTab("📋 Funciones")
-        local MainSection = MainTab:NewSection("Bienvenido a Patito")
+Button.MouseButton1Click:Connect(function()
+    if TextBox.Text == KeyRequired then
+        ScreenGui:Destroy()
 
-        MainSection:NewLabel("🎉 Clave correcta, acceso concedido")
-        MainSection:NewButton("Función de ejemplo", "Haz clic y mira la consola", function()
-            print("✅ Función ejecutada correctamente.")
-        end)
+        -- Aquí cargas el script principal (el panel)
+        loadstring(game:HttpGet("TU_URL_DEL_SCRIPT_AQUI"))()
+
     else
-        KavoUI:Notify("❌ Acceso Denegado", "Clave incorrecta")
+        Button.Text = "Clave incorrecta"
+        Button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        wait(1.5)
+        Button.Text = "Verificar"
+        Button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
     end
 end)
+
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))();
-local Window = Library.CreateLib("patito - Age Of Heros", "Sentinel");function MakeDraggable(frame)
+local Window = Library.CreateLib("patito - Age Of Heros", "Ocean");function MakeDraggable(frame)
     local dragging
     local dragInput
     local dragStart
